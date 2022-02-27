@@ -43,11 +43,11 @@ namespace SmileCorp
             // Prevent it if the player tries to move outside of the window boundaries
             if (position.X < 0 || position.X > mapWidth)
             {
-                position.X = MathHelper.Clamp(position.X, 0, mapWidth);
+                position.X = Math.Clamp(position.X, 0, mapWidth);
             }
             if (position.Y < 0 || position.Y > mapHeight)
             {
-                position.Y = MathHelper.Clamp(position.Y, 0, mapHeight);
+                position.Y = Math.Clamp(position.Y, 0, mapHeight);
             }
         }
 

@@ -33,5 +33,18 @@ namespace SmileCorp
         {
 
         }
+
+        public new void Draw(SpriteBatch sb)
+        {
+            sb.Draw(spriteSheet, 
+                new Vector2(position.X, position.Y), 
+                null, 
+                Color.White, 
+                0, 
+                Vector2.Zero, 
+                1.0f, 
+                SpriteEffects.None, 
+                0f);
+        }
     }
 }

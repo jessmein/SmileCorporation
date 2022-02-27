@@ -124,7 +124,7 @@ namespace SmileCorp
             npcs.Add(new Npc(128, 128, new Vector2(500, 1220), npcImg, "Receptionist"));
             npcs.Add(new Npc(128, 128, new Vector2(100, 100), security, "Guard"));
 
-            currentState = GameStates.Credits;
+            currentState = GameStates.Title;
         }
         
         protected override void Update(GameTime gameTime)
@@ -143,7 +143,10 @@ namespace SmileCorp
                 //Game Screen --> Where the game is played
                 case GameStates.Game:
                     player.Update(gameTime);
-                    //npc.Update(gameTime);          
+                    foreach(Npc n in npcs)
+                    {
+                        n.Update(gameTime);
+                    }          
                     
                     kbState = Keyboard.GetState();
 
@@ -198,22 +201,26 @@ namespace SmileCorp
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin(); //Starts drawing
 
             switch(currentState)
             {
                 case GameStates.Title:
+                    _spriteBatch.Begin();
                     _spriteBatch.Draw(titleMenu, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                    _spriteBatch.End();
                     break;
 
                 case GameStates.Credits:
+                    _spriteBatch.Begin();
                     _spriteBatch.DrawString(font, "Credits", new Vector2(windowWidth / 2, 10), Color.White);
                     _spriteBatch.DrawString(font, "Programmers: Anna Piccione, Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 70), Color.White);
                     _spriteBatch.DrawString(font, "Artists: Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 110), Color.White);
                     _spriteBatch.Draw(smile, new Rectangle(380, 175, smile.Width / 2, smile.Height / 2), Color.White);
+                    _spriteBatch.End();
                     break;
 
                 case GameStates.Game:
+                    _spriteBatch.Begin(transformMatrix: camera.Transform); //Starts drawing
                     _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
 
                     player.Draw(_spriteBatch);
@@ -227,11 +234,10 @@ namespace SmileCorp
                     {
                         n.Draw(_spriteBatch);
                     }
+                    _spriteBatch.End();
 
                     break;
             }
-
-            _spriteBatch.End(); //Ends drawing
 
             base.Draw(gameTime);
         }

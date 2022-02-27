@@ -67,6 +67,7 @@ namespace SmileCorp
 
         private List<Npc> npcs;
         private SpriteFont font;
+        private Texture2D smile;
 
         #endregion
 
@@ -103,6 +104,7 @@ namespace SmileCorp
             titleMenu = this.Content.Load<Texture2D>("SmileCorporation_Title");
             npcImg = this.Content.Load<Texture2D>("recpSpritesheet");
             security = this.Content.Load<Texture2D>("securitySpriteSheet");
+            smile = this.Content.Load<Texture2D>("smileY");
 
             font = this.Content.Load<SpriteFont>("Credit");
 
@@ -206,14 +208,13 @@ namespace SmileCorp
 
                 case GameStates.Credits:
                     _spriteBatch.DrawString(font, "Credits", new Vector2(windowWidth / 2, 10), Color.White);
-                    _spriteBatch.DrawString(font, "Programmers: Anna Piccione, Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 50), Color.White);
-                    _spriteBatch.DrawString(font, "Artists: Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 60), Color.White);
+                    _spriteBatch.DrawString(font, "Programmers: Anna Piccione, Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 70), Color.White);
+                    _spriteBatch.DrawString(font, "Artists: Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 110), Color.White);
+                    _spriteBatch.Draw(smile, new Rectangle(380, 175, smile.Width / 2, smile.Height / 2), Color.White);
                     break;
 
                 case GameStates.Game:
                     _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
-
-                //transformMatrix: camera.Transform;
 
                     player.Draw(_spriteBatch);
 

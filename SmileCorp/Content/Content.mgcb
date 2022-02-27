@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:angelicaSpritesheet.png
 
+#begin Credit.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Credit.spritefont
+
 #begin ReceptionA.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -108,6 +115,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SmileCorporation_Title.png
+
+#begin SmileCorporation_Title-credits.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SmileCorporation_Title-credits.png
+
+#begin SmileCorporation_Title-play.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SmileCorporation_Title-play.png
 
 #begin sofaLeft.png
 /importer:TextureImporter

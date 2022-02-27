@@ -58,8 +58,8 @@ namespace SmileCorp
 
         //Buttons
         
-        private Texture2D startButton;
-        private Texture2D creditsButton;
+        private Rectangle startButton;
+        private Rectangle creditsButton;
 
         //private List<Npc> npcs;
 

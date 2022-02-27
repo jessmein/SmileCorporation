@@ -62,11 +62,8 @@ namespace SmileCorp
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            windowWidth = _graphics.PreferredBackBufferWidth = 1000;
-            windowHeight = _graphics.PreferredBackBufferHeight = 1000;
-
-            mapHeight = 4000;
-            mapWidth = 3000;
+            windowWidth = _graphics.PreferredBackBufferWidth = 960;
+            windowHeight = _graphics.PreferredBackBufferHeight = 540;
 
             _graphics.ApplyChanges();
             base.Initialize();
@@ -77,16 +74,20 @@ namespace SmileCorp
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             playerImg = Content.Load<Texture2D>("angelicaSpriteSheet");
-            npcImg = Content.Load<Texture2D>("ReceptionDesk");
+            npcImg = Content.Load<Texture2D>("RecpFrontStraight");
             testMap = Content.Load<Texture2D>("receptionArea");
 
             player = new Player(128, 128, new Vector2(700, 700), playerImg);
-            npc = new Npc(128, 128, new Vector2(1000, 10), npcImg, "TestNpc");
+            npc = new Npc(128, 128, new Vector2(680, 1220), npcImg, "TestNpc");
             tempCamTarget = new GameObject(128, 128, new Vector2(0, 0), null);
             collisionManager = new CollisionManager();
             camera = new Camera();
 
             currentState = GameStates.Game;
+
+            mapWidth = testMap.Width / 2;
+            mapHeight = testMap.Height / 2;
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -155,7 +156,7 @@ namespace SmileCorp
             // TODO: Add your drawing code here
             _spriteBatch.Begin(transformMatrix: camera.Transform); //Starts drawing
 
-            _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
+            _spriteBatch.Draw(testMap, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, .5f, SpriteEffects.None, 0f);
 
             npc.Draw(_spriteBatch);
             player.Draw(_spriteBatch);

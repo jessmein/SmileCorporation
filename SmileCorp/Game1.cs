@@ -67,6 +67,7 @@ namespace SmileCorp
 
         private List<Npc> npcs;
         private SpriteFont font;
+        private Texture2D smile;
 
         #endregion
 
@@ -103,6 +104,7 @@ namespace SmileCorp
             titleMenu = this.Content.Load<Texture2D>("SmileCorporation_Title");
             npcImg = this.Content.Load<Texture2D>("recpSpritesheet");
             security = this.Content.Load<Texture2D>("securitySpriteSheet");
+            smile = this.Content.Load<Texture2D>("smileY");
 
             font = this.Content.Load<SpriteFont>("Credit");
 
@@ -124,7 +126,7 @@ namespace SmileCorp
 
             //dialogue
             dialogue = new Dialogue(new Texture2D(GraphicsDevice, 100, 100));
-            currentState = GameStates.Credits;
+            currentState = GameStates.Game;
 
 
         }
@@ -200,7 +202,7 @@ namespace SmileCorp
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin(); //Starts drawing
+            _spriteBatch.Begin(transformMatrix: camera.Transform); //Starts drawing
 
             switch(currentState)
             {
@@ -210,14 +212,13 @@ namespace SmileCorp
 
                 case GameStates.Credits:
                     _spriteBatch.DrawString(font, "Credits", new Vector2(windowWidth / 2, 10), Color.White);
-                    _spriteBatch.DrawString(font, "Programmers: Anna Piccione, Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 50), Color.White);
-                    _spriteBatch.DrawString(font, "Artists: Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 60), Color.White);
+                    _spriteBatch.DrawString(font, "Programmers: Anna Piccione, Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 70), Color.White);
+                    _spriteBatch.DrawString(font, "Artists: Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 110), Color.White);
+                    _spriteBatch.Draw(smile, new Rectangle(380, 175, smile.Width / 2, smile.Height / 2), Color.White);
                     break;
 
                 case GameStates.Game:
                     _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
-
-                //transformMatrix: camera.Transform;
 
                     player.Draw(_spriteBatch);
 
@@ -230,6 +231,8 @@ namespace SmileCorp
                     {
                         n.Draw(_spriteBatch);
                     }
+
+                    dialogue.Draw(gameTime, _spriteBatch);
 
                     break;
             }

@@ -31,7 +31,6 @@ namespace SmileCorp
 
         public void Update(GameTime gameTime)
         {
-
         }
 
         public new void Draw(SpriteBatch sb)

@@ -46,6 +46,8 @@ namespace SmileCorp
         private CollisionManager collisionManager;
         private Camera camera;
 
+        private Texture2D titleMenu;
+
         // Testing Dialogue UI
         private string textText;
 
@@ -89,7 +91,7 @@ namespace SmileCorp
             sofaLeft = Content.Load<Texture2D>("sofaLeft");
             sofaRight = Content.Load<Texture2D>("sofaRight");
 
-
+            titleMenu = Content.Load<Texture2D>("SmileCorporation_Title");
 
             player = new Player(128, 128, new Vector2(700, 700), playerImg);
             prevPlayerPos = player.Position;
@@ -176,7 +178,7 @@ namespace SmileCorp
             switch(currentState)
             {
                 case GameStates.Title:
-
+                    _spriteBatch.Draw(titleMenu, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
                     break;
                 case GameStates.Game:
                     _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
@@ -250,6 +252,14 @@ namespace SmileCorp
                     player.Position = prevPlayerPos;
                 }
             } 
+        }
+
+        private void CheckInteraction()
+        {
+            if (collisionManager.CheckCollision(player, npc, 7))
+            {
+
+            }
         }
 
         // Checking for single input

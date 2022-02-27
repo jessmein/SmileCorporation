@@ -56,6 +56,11 @@ namespace SmileCorp
         private Texture2D sofaLeft;
         private Texture2D sofaRight;
 
+        //Buttons
+        
+        private Texture2D startButton;
+        private Texture2D creditsButton;
+
         //private List<Npc> npcs;
 
         #endregion
@@ -103,7 +108,7 @@ namespace SmileCorp
             objects.Add(new GameObject(188, 338, new Vector2(1250, 1450), sofaRight));
             objects.Add(new GameObject(380, 150, new Vector2(550, 1350), deskImg));
 
-            currentState = GameStates.Game;
+            currentState = GameStates.Title;
         }
         
         protected override void Update(GameTime gameTime)

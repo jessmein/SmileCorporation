@@ -122,7 +122,11 @@ namespace SmileCorp
             npcs.Add(new Npc(128, 128, new Vector2(500, 1220), npcImg, "Receptionist"));
             npcs.Add(new Npc(128, 128, new Vector2(100, 100), security, "Guard"));
 
+            //dialogue
+            dialogue = new Dialogue(new Texture2D(GraphicsDevice, 100, 100));
             currentState = GameStates.Credits;
+
+
         }
         
         protected override void Update(GameTime gameTime)

@@ -12,6 +12,7 @@ namespace SmileCorp
     enum GameStates
     {
         Title,
+        Credits,
         Game,
         Pause,
         GameOver
@@ -56,6 +57,11 @@ namespace SmileCorp
         private List<GameObject> objects;
         private Texture2D sofaLeft;
         private Texture2D sofaRight;
+
+        //Buttons
+        
+        private Rectangle startButton;
+        private Rectangle creditsButton;
 
         //private List<Npc> npcs;
 
@@ -104,7 +110,7 @@ namespace SmileCorp
             objects.Add(new GameObject(188, 338, new Vector2(1250, 1450), sofaRight));
             objects.Add(new GameObject(380, 150, new Vector2(550, 1350), deskImg));
 
-            currentState = GameStates.Game;
+            currentState = GameStates.Title;
         }
         
         protected override void Update(GameTime gameTime)
@@ -202,6 +208,8 @@ namespace SmileCorp
         private void GameReset()
         {
             //Resets the players position
+            player.Position = new Vector2(700, 700);
+
         }
 
         private bool CheckCameraBounds(Vector2 playerPos)

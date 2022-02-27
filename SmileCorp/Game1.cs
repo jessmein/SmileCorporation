@@ -166,33 +166,37 @@ namespace SmileCorp
 
         private bool CheckCameraBounds(Vector2 playerPos)
         {
+            bool isBorder = false;
+            Vector2 newPos = playerPos;
 
             // If the player is at the x bottom of the map
             if (playerPos.X < windowWidth / 2)
             {
-                int xPos = windowWidth / 2;
-                tempCamTarget.Position = new Vector2(xPos, playerPos.Y);
-                return true;
+                newPos.X = windowWidth / 2;
+                isBorder = true;
             }
             // If the player is at the x top of the map
             if (playerPos.X + player.Width > mapWidth - (windowWidth / 2))
             {
-                int xPos = mapWidth - (windowWidth / 2) - player.Width;
-                tempCamTarget.Position = new Vector2(xPos, playerPos.Y);
-                return true;
+                newPos.X = mapWidth - (windowWidth / 2) - player.Width;
+                isBorder = true;
             }
             // If the player is at the y bottom of the map
             if (playerPos.Y < windowHeight / 2)
             {
-                int yPos = windowHeight / 2;
-                tempCamTarget.Position = new Vector2(playerPos.X, yPos);
-                return true;
+                newPos.Y = windowHeight / 2;
+                isBorder = true;
             }
             // If the player is at the y top of the map
             if (playerPos.Y + player.Height > mapHeight - (windowHeight / 2))
             {
-                int yPos = mapHeight - (windowHeight / 2) - player.Height;
-                tempCamTarget.Position = new Vector2(playerPos.X, yPos);
+                newPos.Y = mapHeight - (windowHeight / 2) - player.Height;
+                isBorder = true;
+            }
+
+            if (isBorder)
+            {
+                tempCamTarget.Position = newPos;
                 return true;
             }
             return false;

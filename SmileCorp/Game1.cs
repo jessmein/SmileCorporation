@@ -43,15 +43,17 @@ namespace SmileCorp
         private Player player;
         private Vector2 prevPlayerPos;
         private GameObject tempCamTarget;
-        private Npc npc;
         private CollisionManager collisionManager;
         private Camera camera;
 
         private Texture2D titleMenu;
+        private Texture2D npcImg;
+        private Texture2D security;
 
         // Testing Dialogue UI
         private string textText;
 
+        Dialogue dialogue;
 
         // GameObjects
         private List<GameObject> objects;
@@ -63,7 +65,9 @@ namespace SmileCorp
         private Texture2D startButton;
         private Texture2D creditsButton;
 
-        //private List<Npc> npcs;
+        private List<Npc> npcs;
+        private SpriteFont font;
+        private Texture2D smile;
 
         #endregion
 
@@ -77,8 +81,8 @@ namespace SmileCorp
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            windowWidth = _graphics.PreferredBackBufferWidth = 800;
-            windowHeight = _graphics.PreferredBackBufferHeight = 800;
+            windowWidth = _graphics.PreferredBackBufferWidth = 960;
+            windowHeight = _graphics.PreferredBackBufferHeight = 540;
 
             mapHeight = 2000;
             mapWidth = 1500;
@@ -86,18 +90,23 @@ namespace SmileCorp
             _graphics.ApplyChanges();
             base.Initialize();
         }
-         
+
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            playerImg = Content.Load<Texture2D>("angelicaSpriteSheet");
-            deskImg = Content.Load<Texture2D>("ReceptionDesk");
-            testMap = Content.Load<Texture2D>("ReceptionA");
-            sofaLeft = Content.Load<Texture2D>("sofaLeft");
-            sofaRight = Content.Load<Texture2D>("sofaRight");
+            playerImg = this.Content.Load<Texture2D>("angelicaSpriteSheet");
+            deskImg = this.Content.Load<Texture2D>("ReceptionDesk");
+            testMap = this.Content.Load<Texture2D>("ReceptionA");
+            sofaLeft = this.Content.Load<Texture2D>("sofaLeft");
+            sofaRight = this.Content.Load<Texture2D>("sofaRight");
 
-            titleMenu = Content.Load<Texture2D>("SmileCorporation_Title");
+            titleMenu = this.Content.Load<Texture2D>("SmileCorporation_Title");
+            npcImg = this.Content.Load<Texture2D>("recpSpritesheet");
+            security = this.Content.Load<Texture2D>("securitySpriteSheet");
+            smile = this.Content.Load<Texture2D>("smileY");
+
+            font = this.Content.Load<SpriteFont>("Credit");
 
             player = new Player(128, 128, new Vector2(700, 700), playerImg);
             prevPlayerPos = player.Position;
@@ -135,6 +144,16 @@ namespace SmileCorp
             buttons[1].OnLeftButtonClick += CreditsButton;
 
             currentState = GameStates.Title;
+
+            // add curr level npcs to the list
+            npcs = new List<Npc>();
+            npcs.Add(new Npc(128, 128, new Vector2(500, 1220), npcImg, "Receptionist"));
+            npcs.Add(new Npc(128, 128, new Vector2(100, 100), security, "Guard"));
+
+            //dialogue
+            dialogue = new Dialogue(new Texture2D(GraphicsDevice, 100, 100));
+            currentState = GameStates.Credits;
+
 
         }
         
@@ -188,6 +207,11 @@ namespace SmileCorp
                         camera.Follow(player, windowHeight, windowWidth);
                     }
 
+                    foreach (Npc n in npcs)
+                    {
+                        CheckInteraction(n);
+                    }
+
                     prevKBState = kbState;
                     prevPlayerPos = player.Position;
                     break;
@@ -212,10 +236,10 @@ namespace SmileCorp
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin(transformMatrix: camera.Transform); //Starts drawing
+            _spriteBatch.Begin(); //Starts drawing
 
             switch(currentState)
             {
@@ -227,6 +251,14 @@ namespace SmileCorp
                     buttons[1].Draw(_spriteBatch); // credits
 
                     break;
+
+                case GameStates.Credits:
+                    _spriteBatch.DrawString(font, "Credits", new Vector2(windowWidth / 2, 10), Color.White);
+                    _spriteBatch.DrawString(font, "Programmers: Anna Piccione, Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 70), Color.White);
+                    _spriteBatch.DrawString(font, "Artists: Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 110), Color.White);
+                    _spriteBatch.Draw(smile, new Rectangle(380, 175, smile.Width / 2, smile.Height / 2), Color.White);
+                    break;
+
                 case GameStates.Game:
                     _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
 
@@ -236,8 +268,13 @@ namespace SmileCorp
                     {
                         obj.Draw(_spriteBatch);
                     }
-                    break;
 
+                    foreach (Npc n in npcs)
+                    {
+                        n.Draw(_spriteBatch);
+                    }
+
+                    break;
             }
 
             _spriteBatch.End(); //Ends drawing
@@ -303,9 +340,9 @@ namespace SmileCorp
             } 
         }
 
-        private void CheckInteraction()
+        private void CheckInteraction(Npc npc)
         {
-            if (collisionManager.CheckCollision(player, npc, 7))
+            if (collisionManager.CheckCollision(player, npc, 7) && kbState.IsKeyDown(Keys.E) && prevKBState.IsKeyUp(Keys.E))
             {
 
             }

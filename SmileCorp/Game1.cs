@@ -152,9 +152,6 @@ namespace SmileCorp
 
             //dialogue
             dialogue = new Dialogue(new Texture2D(GraphicsDevice, 100, 100));
-            currentState = GameStates.Credits;
-
-
         }
         
         protected override void Update(GameTime gameTime)
@@ -248,6 +245,7 @@ namespace SmileCorp
                 case GameStates.Title:
                     _spriteBatch.Begin();
                     _spriteBatch.Draw(titleMenu, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                    _spriteBatch.End();
                     break;
 
                 case GameStates.Credits:

@@ -61,9 +61,9 @@ namespace SmileCorp
         private Texture2D sofaRight;
 
         //Buttons
-        
-        private Rectangle startButton;
-        private Rectangle creditsButton;
+        private List<Button> buttons = new List<Button>();
+        private Texture2D startButton;
+        private Texture2D creditsButton;
 
         private List<Npc> npcs;
         private SpriteFont font;
@@ -119,12 +119,42 @@ namespace SmileCorp
             objects.Add(new GameObject(188, 338, new Vector2(1250, 1450), sofaRight));
             objects.Add(new GameObject(380, 150, new Vector2(550, 1350), deskImg));
 
+            startButton = Content.Load<Texture2D>("SmileCorporation_Title-play");
+            creditsButton = Content.Load<Texture2D>("SmileCorporation_Title-credits");
+
+            // Add buttons
+            // Title
+            buttons.Add(new Button(
+                _graphics.GraphicsDevice,
+                new Rectangle(windowWidth / 2 - 390, windowHeight / 2 - 35, 160, 75),
+                startButton,
+                startButton
+                ));
+
+            // credits
+            buttons.Add(new Button(
+                _graphics.GraphicsDevice,
+                new Rectangle(windowWidth / 2 - 430, windowHeight / 2 + 40, 300, 65),
+                creditsButton,
+                creditsButton
+                ));
+
+            // Assign methods to the buttons' event 
+            buttons[0].OnLeftButtonClick += PlayButton;
+            buttons[1].OnLeftButtonClick += CreditsButton;
+
+            currentState = GameStates.Title;
+
             // add curr level npcs to the list
             npcs = new List<Npc>();
             npcs.Add(new Npc(128, 128, new Vector2(500, 1220), npcImg, "Receptionist"));
             npcs.Add(new Npc(128, 128, new Vector2(100, 100), security, "Guard"));
 
-            currentState = GameStates.Title;
+            //dialogue
+            dialogue = new Dialogue(new Texture2D(GraphicsDevice, 100, 100));
+            currentState = GameStates.Credits;
+
+
         }
         
         protected override void Update(GameTime gameTime)
@@ -137,6 +167,17 @@ namespace SmileCorp
                 case GameStates.Title:
 
                     previousState = currentState;
+
+                    //Updates the buttons
+                    buttons[0].Update();
+                    buttons[1].Update();
+
+
+                    IsMouseVisible = true;
+
+                    break;
+
+                case GameStates.Credits:
 
                     break;
 
@@ -207,7 +248,6 @@ namespace SmileCorp
                 case GameStates.Title:
                     _spriteBatch.Begin();
                     _spriteBatch.Draw(titleMenu, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
-                    _spriteBatch.End();
                     break;
 
                 case GameStates.Credits:
@@ -312,6 +352,16 @@ namespace SmileCorp
         public bool SingleKeyPress(Keys key, KeyboardState kbState)
         {
             return kbState.IsKeyDown(key) && !prevKBState.IsKeyDown(key);
+        }
+
+        public void PlayButton ()
+        {
+            currentState = GameStates.Game;
+        }
+
+        public void CreditsButton ()
+        {
+            currentState = GameStates.Credits;
         }
     }
 }

@@ -38,8 +38,9 @@ namespace SmileCorp
         private int mapHeight;
 
         private Texture2D playerImg;
-        private Texture2D npcImg;
+        private Texture2D deskImg;
         private Player player;
+        private Vector2 prevPlayerPos;
         private GameObject tempCamTarget;
         private Npc npc;
         private CollisionManager collisionManager;
@@ -47,6 +48,11 @@ namespace SmileCorp
 
         // Testing Dialogue UI
         private string textText;
+
+        // GameObjects
+        private List<GameObject> objects;
+        private Texture2D sofaLeft;
+        private Texture2D sofaRight;
 
         //private List<Npc> npcs;
 
@@ -62,11 +68,11 @@ namespace SmileCorp
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            windowWidth = _graphics.PreferredBackBufferWidth = 1000;
-            windowHeight = _graphics.PreferredBackBufferHeight = 1000;
+            windowWidth = _graphics.PreferredBackBufferWidth = 800;
+            windowHeight = _graphics.PreferredBackBufferHeight = 800;
 
-            mapHeight = 4000;
-            mapWidth = 3000;
+            mapHeight = 2000;
+            mapWidth = 1500;
 
             _graphics.ApplyChanges();
             base.Initialize();
@@ -77,18 +83,25 @@ namespace SmileCorp
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             playerImg = Content.Load<Texture2D>("angelicaSpriteSheet");
-            npcImg = Content.Load<Texture2D>("ReceptionDesk");
-            testMap = Content.Load<Texture2D>("receptionArea");
+            deskImg = Content.Load<Texture2D>("ReceptionDesk");
+            testMap = Content.Load<Texture2D>("ReceptionA");
+            sofaLeft = Content.Load<Texture2D>("sofaLeft");
+            sofaRight = Content.Load<Texture2D>("sofaRight");
 
             player = new Player(128, 128, new Vector2(700, 700), playerImg);
-            npc = new Npc(128, 128, new Vector2(1000, 10), npcImg, "TestNpc");
+            prevPlayerPos = player.Position;
             tempCamTarget = new GameObject(128, 128, new Vector2(0, 0), null);
             collisionManager = new CollisionManager();
             camera = new Camera();
 
+            objects = new List<GameObject>();
+            objects.Add(new GameObject(188, 338, new Vector2(60, 1450), sofaLeft));
+            objects.Add(new GameObject(188, 338, new Vector2(1250, 1450), sofaRight));
+            objects.Add(new GameObject(380, 150, new Vector2(550, 1350), deskImg));
+
             currentState = GameStates.Game;
         }
-
+        
         protected override void Update(GameTime gameTime)
         {
 
@@ -105,14 +118,15 @@ namespace SmileCorp
                 //Game Screen --> Where the game is played
                 case GameStates.Game:
                     player.Update(gameTime);
-                    npc.Update(gameTime);
+                    //npc.Update(gameTime);          
                     
                     kbState = Keyboard.GetState();
 
                     player.borderRestriction(mapWidth, mapHeight);
+                    checkObjectCollision();
 
                     // checks to see if the player interacts with any NPCs
-                    if (collisionManager.CheckCollision(player, npc, 50) && SingleKeyPress(Keys.E, kbState))
+                    if (collisionManager.CheckCollision(player, objects[2], 50) && SingleKeyPress(Keys.E, kbState))
                     {
                         System.Diagnostics.Debug.WriteLine("Collision Detected");
                     }
@@ -128,6 +142,7 @@ namespace SmileCorp
                     }
 
                     prevKBState = kbState;
+                    prevPlayerPos = player.Position;
                     break;
 
                 //Pause Screen
@@ -157,8 +172,12 @@ namespace SmileCorp
 
             _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
 
-            npc.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
+
+            foreach(GameObject obj in objects)
+            {
+                obj.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End(); //Ends drawing
 
@@ -209,7 +228,17 @@ namespace SmileCorp
             return false;
         }
 
-        //private void 
+        // Function checks to see if player hits any static objects, preventing them from walking on 'nullspace'
+        private void checkObjectCollision()
+        {
+            foreach(GameObject obj in objects)
+            {
+                if (collisionManager.CheckCollision(player, obj, 0))
+                {
+                    player.Position = prevPlayerPos;
+                }
+            } 
+        }
 
         // Checking for single input
         public bool SingleKeyPress(Keys key, KeyboardState kbState)

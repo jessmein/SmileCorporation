@@ -152,6 +152,8 @@ namespace SmileCorp
 
             //dialogue
             dialogue = new Dialogue(new Texture2D(GraphicsDevice, 100, 100));
+
+
         }
         
         protected override void Update(GameTime gameTime)

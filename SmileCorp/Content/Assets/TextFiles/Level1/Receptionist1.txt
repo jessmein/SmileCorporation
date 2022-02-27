@@ -1,0 +1,6 @@
+R-How can I help you today?
+A-Hello, I am here to see Stephanie Brian.
+R-Oh no! I’m so sorry but that won’t be possible at this moment, it seems Ms. Brian is a little… preoccupied at the moment.
+A-What is that supposed to mean?
+R-It means Ms. Brian will not be available tonight. Please feel free to sit down and wait for her in our waiting area.
+A-Okay...

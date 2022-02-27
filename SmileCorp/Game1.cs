@@ -45,6 +45,9 @@ namespace SmileCorp
         private CollisionManager collisionManager;
         private Camera camera;
 
+        // Testing Dialogue UI
+        private string textText;
+
         //private List<Npc> npcs;
 
         #endregion

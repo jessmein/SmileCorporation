@@ -59,7 +59,7 @@ namespace SmileCorp
         private Texture2D sofaRight;
 
         //Buttons
-        
+        private List<Button> buttons = new List<Button>();
         private Rectangle startButton;
         private Rectangle creditsButton;
 
@@ -110,7 +110,11 @@ namespace SmileCorp
             objects.Add(new GameObject(188, 338, new Vector2(1250, 1450), sofaRight));
             objects.Add(new GameObject(380, 150, new Vector2(550, 1350), deskImg));
 
+            /*startButton = Content.Load<Texture2D>("");
+            controlsButton = Content.Load<Texture2D>("OnControls");
+*/
             currentState = GameStates.Title;
+
         }
         
         protected override void Update(GameTime gameTime)
@@ -123,6 +127,14 @@ namespace SmileCorp
                 case GameStates.Title:
 
                     previousState = currentState;
+
+                    
+
+                    IsMouseVisible = true;
+
+                    break;
+
+                case GameStates.Credits:
 
                     break;
 
@@ -274,6 +286,16 @@ namespace SmileCorp
         public bool SingleKeyPress(Keys key, KeyboardState kbState)
         {
             return kbState.IsKeyDown(key) && !prevKBState.IsKeyDown(key);
+        }
+
+        public void PlayButton ()
+        {
+            currentState = GameStates.Game;
+        }
+
+        public void CreditsButton ()
+        {
+            currentState = GameStates.Credits;
         }
     }
 }

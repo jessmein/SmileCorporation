@@ -50,6 +50,7 @@ namespace SmileCorp
         // Testing Dialogue UI
         private string textText;
 
+
         // GameObjects
         private List<GameObject> objects;
         private Texture2D sofaLeft;
@@ -88,6 +89,8 @@ namespace SmileCorp
             testMap = Content.Load<Texture2D>("ReceptionA");
             sofaLeft = Content.Load<Texture2D>("sofaLeft");
             sofaRight = Content.Load<Texture2D>("sofaRight");
+
+
 
             player = new Player(128, 128, new Vector2(700, 700), playerImg);
             prevPlayerPos = player.Position;
@@ -171,13 +174,22 @@ namespace SmileCorp
             // TODO: Add your drawing code here
             _spriteBatch.Begin(transformMatrix: camera.Transform); //Starts drawing
 
-            _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
-
-            player.Draw(_spriteBatch);
-
-            foreach(GameObject obj in objects)
+            switch(currentState)
             {
-                obj.Draw(_spriteBatch);
+                case GameStates.Title:
+
+                    break;
+                case GameStates.Game:
+                    _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
+
+                    player.Draw(_spriteBatch);
+
+                    foreach (GameObject obj in objects)
+                    {
+                        obj.Draw(_spriteBatch);
+                    }
+                    break;
+
             }
 
             _spriteBatch.End(); //Ends drawing

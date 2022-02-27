@@ -37,7 +37,7 @@ namespace SmileCorp
         #endregion
 
         // Player constructor
-        public Player(int width, int height, Vector2 position, Texture2D texture) : base(width, height, position)
+        public Player(int width, int height, Vector2 position, Texture2D texture) : base(width, height, position, texture)
         {
             this.speed = 5;
             this.health = 3;
@@ -90,7 +90,7 @@ namespace SmileCorp
         }
 
         // Drawing the player
-        public void Draw(SpriteBatch sb)
+        public new void Draw(SpriteBatch sb)
         {
 
             switch (currentState)
@@ -142,7 +142,6 @@ namespace SmileCorp
                 position.X += speed;
                 currentState = PlayerState.WalkRight;
             }
-
         }
 
     }

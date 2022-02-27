@@ -37,7 +37,8 @@ namespace SmileCorp
         private int mapWidth;
         private int mapHeight;
 
-        private Texture2D playerImg; 
+        private Texture2D playerImg;
+        private Texture2D npcImg;
         private Player player;
         private GameObject tempCamTarget;
         private Npc npc;
@@ -73,11 +74,12 @@ namespace SmileCorp
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             playerImg = Content.Load<Texture2D>("angelicaSpriteSheet");
+            npcImg = Content.Load<Texture2D>("ReceptionDesk");
             testMap = Content.Load<Texture2D>("testMap");
 
             player = new Player(128, 128, new Vector2(700, 700), playerImg);
-            npc = new Npc(128, 128, new Vector2(30, 30), playerImg, "TestNpc");
-            tempCamTarget = new GameObject(128, 128, new Vector2(0, 0));
+            npc = new Npc(128, 128, new Vector2(1000, 10), npcImg, "TestNpc");
+            tempCamTarget = new GameObject(128, 128, new Vector2(0, 0), null);
             collisionManager = new CollisionManager();
             camera = new Camera();
 
@@ -104,8 +106,10 @@ namespace SmileCorp
                     
                     kbState = Keyboard.GetState();
 
+                    player.borderRestriction(mapWidth, mapHeight);
+
                     // checks to see if the player interacts with any NPCs
-                    if (collisionManager.CheckCollision(player, npc, 7) && SingleKeyPress(Keys.E, kbState))
+                    if (collisionManager.CheckCollision(player, npc, 50) && SingleKeyPress(Keys.E, kbState))
                     {
                         System.Diagnostics.Debug.WriteLine("Collision Detected");
                     }
@@ -201,6 +205,8 @@ namespace SmileCorp
             }
             return false;
         }
+
+        //private void 
 
         // Checking for single input
         public bool SingleKeyPress(Keys key, KeyboardState kbState)

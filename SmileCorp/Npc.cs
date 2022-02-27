@@ -22,7 +22,7 @@ namespace SmileCorp
         #endregion
 
         // Public NPC Constructor
-        public Npc(int width, int height, Vector2 position, Texture2D texture, String name) : base(width, height, position)
+        public Npc(int width, int height, Vector2 position, Texture2D texture, String name) : base(760, 300, position, texture)
         {
             this.spriteSheet = texture;
             this.name = name;
@@ -33,12 +33,5 @@ namespace SmileCorp
         {
 
         }
-
-        // Draws the NPC
-        public void Draw(SpriteBatch sb)
-        {
-            sb.Draw(spriteSheet, position, Color.White);
-        }
-
     }
 }

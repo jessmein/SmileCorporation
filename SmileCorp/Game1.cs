@@ -12,6 +12,7 @@ namespace SmileCorp
     enum GameStates
     {
         Title,
+        Credits,
         Game,
         Pause,
         GameOver
@@ -188,6 +189,8 @@ namespace SmileCorp
         private void GameReset()
         {
             //Resets the players position
+            player.Position = new Vector2(700, 700);
+
         }
 
         private bool CheckCameraBounds(Vector2 playerPos)

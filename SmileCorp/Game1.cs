@@ -60,8 +60,8 @@ namespace SmileCorp
 
         //Buttons
         private List<Button> buttons = new List<Button>();
-        private Rectangle startButton;
-        private Rectangle creditsButton;
+        private Texture2D startButton;
+        private Texture2D creditsButton;
 
         //private List<Npc> npcs;
 
@@ -110,9 +110,30 @@ namespace SmileCorp
             objects.Add(new GameObject(188, 338, new Vector2(1250, 1450), sofaRight));
             objects.Add(new GameObject(380, 150, new Vector2(550, 1350), deskImg));
 
-            /*startButton = Content.Load<Texture2D>("");
-            controlsButton = Content.Load<Texture2D>("OnControls");
-*/
+            startButton = Content.Load<Texture2D>("SmileCorporation_Title-play");
+            creditsButton = Content.Load<Texture2D>("SmileCorporation_Title-credits");
+
+            // Add buttons
+            // Title
+            buttons.Add(new Button(
+                _graphics.GraphicsDevice,
+                new Rectangle(windowWidth / 2 - 390, windowHeight / 2 - 35, 160, 75),
+                startButton,
+                startButton
+                ));
+
+            // credits
+            buttons.Add(new Button(
+                _graphics.GraphicsDevice,
+                new Rectangle(windowWidth / 2 - 430, windowHeight / 2 + 40, 300, 65),
+                creditsButton,
+                creditsButton
+                ));
+
+            // Assign methods to the buttons' event 
+            buttons[0].OnLeftButtonClick += PlayButton;
+            buttons[1].OnLeftButtonClick += CreditsButton;
+
             currentState = GameStates.Title;
 
         }
@@ -128,7 +149,10 @@ namespace SmileCorp
 
                     previousState = currentState;
 
-                    
+                    //Updates the buttons
+                    buttons[0].Update();
+                    buttons[1].Update();
+
 
                     IsMouseVisible = true;
 
@@ -197,6 +221,11 @@ namespace SmileCorp
             {
                 case GameStates.Title:
                     _spriteBatch.Draw(titleMenu, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+
+
+                    buttons[0].Draw(_spriteBatch); // play
+                    buttons[1].Draw(_spriteBatch); // credits
+
                     break;
                 case GameStates.Game:
                     _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);

@@ -65,8 +65,8 @@ namespace SmileCorp
             windowWidth = _graphics.PreferredBackBufferWidth = 1000;
             windowHeight = _graphics.PreferredBackBufferHeight = 1000;
 
-            mapHeight = 2000;
-            mapWidth = 2000;
+            mapHeight = 4000;
+            mapWidth = 3000;
 
             _graphics.ApplyChanges();
             base.Initialize();
@@ -78,7 +78,7 @@ namespace SmileCorp
 
             playerImg = Content.Load<Texture2D>("angelicaSpriteSheet");
             npcImg = Content.Load<Texture2D>("ReceptionDesk");
-            testMap = Content.Load<Texture2D>("testMap");
+            testMap = Content.Load<Texture2D>("receptionArea");
 
             player = new Player(128, 128, new Vector2(700, 700), playerImg);
             npc = new Npc(128, 128, new Vector2(1000, 10), npcImg, "TestNpc");

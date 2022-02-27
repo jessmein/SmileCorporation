@@ -64,6 +64,7 @@ namespace SmileCorp
         private List<Button> buttons = new List<Button>();
         private Texture2D startButton;
         private Texture2D creditsButton;
+        private Texture2D backButton;
 
         private List<Npc> npcs;
         private SpriteFont font;
@@ -121,6 +122,7 @@ namespace SmileCorp
 
             startButton = Content.Load<Texture2D>("SmileCorporation_Title-play");
             creditsButton = Content.Load<Texture2D>("SmileCorporation_Title-credits");
+            backButton = Content.Load<Texture2D>("SmileCorporation_Title-back");
 
             // Add buttons
             // Title
@@ -139,9 +141,18 @@ namespace SmileCorp
                 creditsButton
                 ));
 
+            //Back 
+            buttons.Add(new Button(
+               _graphics.GraphicsDevice,
+               new Rectangle(windowWidth / 2 - 400, windowHeight / 2 + 200, 300, 65),
+               backButton,
+               backButton
+               ));
+
             // Assign methods to the buttons' event 
             buttons[0].OnLeftButtonClick += PlayButton;
             buttons[1].OnLeftButtonClick += CreditsButton;
+            buttons[2].OnLeftButtonClick += BackButton;
 
             currentState = GameStates.Title;
 
@@ -177,6 +188,9 @@ namespace SmileCorp
                     break;
 
                 case GameStates.Credits:
+
+                    //update buttons
+                    buttons[2].Update();
 
                     break;
 
@@ -256,6 +270,9 @@ namespace SmileCorp
                     _spriteBatch.DrawString(font, "Programmers: Anna Piccione, Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 70), Color.White);
                     _spriteBatch.DrawString(font, "Artists: Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 110), Color.White);
                     _spriteBatch.Draw(smile, new Rectangle(380, 175, smile.Width / 2, smile.Height / 2), Color.White);
+
+                    buttons[2].Draw(_spriteBatch); // back
+
                     _spriteBatch.End();
                     break;
 
@@ -362,6 +379,11 @@ namespace SmileCorp
         public void CreditsButton ()
         {
             currentState = GameStates.Credits;
+        }
+
+        public void BackButton ()
+        {
+            currentState = GameStates.Title;
         }
     }
 }

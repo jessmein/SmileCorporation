@@ -28,7 +28,7 @@ namespace SmileCorp
             set { this.position = value; }
         }
 
-        protected GameObject(int width, int height, Vector2 position)
+        public GameObject(int width, int height, Vector2 position)
         {
             this.height = height;
             this.width = width;

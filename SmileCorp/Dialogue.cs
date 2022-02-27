@@ -15,21 +15,15 @@ namespace SmileCorp
         private Rectangle textDims;
         public Dictionary<string, string> currentConvo;
         Texture2D rec;
-        public Dialogue(Texture2D rec)
+        public Dialogue(Texture2D asset)
         {
-            this.rec = rec;
+            rec = asset;
         }
         public new void Draw(GameTime gameTime, SpriteBatch sb)
         {
-            // Option One (if you have integer size and coordinates)
-            sb.Draw(rec, new Rectangle(10, 20, 80, 30),
-                    Color.Chocolate);
-
-            // Option Two (if you have floating-point coordinates)
-            sb.Draw(rec, new Vector2(10f, 20f), null,
-                    Color.Chocolate, 0f, Vector2.Zero, new Vector2(80f, 30f),
-                    SpriteEffects.None, 0f);
+            
         }
+
         // Function takes a file and returns a dictionary containing the entire conversation
         public Dictionary<string, string> OpenFile(string file)
         {

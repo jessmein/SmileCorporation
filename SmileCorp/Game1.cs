@@ -61,9 +61,10 @@ namespace SmileCorp
         private Texture2D sofaRight;
 
         //Buttons
-        
-        private Rectangle startButton;
-        private Rectangle creditsButton;
+        private List<Button> buttons = new List<Button>();
+        private Texture2D startButton;
+        private Texture2D creditsButton;
+        private Texture2D backButton;
 
         private List<Npc> npcs;
         private SpriteFont font;
@@ -119,6 +120,42 @@ namespace SmileCorp
             objects.Add(new GameObject(188, 338, new Vector2(1250, 1450), sofaRight));
             objects.Add(new GameObject(380, 150, new Vector2(550, 1350), deskImg));
 
+            startButton = Content.Load<Texture2D>("SmileCorporation_Title-play");
+            creditsButton = Content.Load<Texture2D>("SmileCorporation_Title-credits");
+            backButton = Content.Load<Texture2D>("SmileCorporation_Title-back");
+
+            // Add buttons
+            // Title
+            buttons.Add(new Button(
+                _graphics.GraphicsDevice,
+                new Rectangle(windowWidth / 2 - 390, windowHeight / 2 - 35, 160, 75),
+                startButton,
+                startButton
+                ));
+
+            // credits
+            buttons.Add(new Button(
+                _graphics.GraphicsDevice,
+                new Rectangle(windowWidth / 2 - 430, windowHeight / 2 + 40, 300, 65),
+                creditsButton,
+                creditsButton
+                ));
+
+            //Back 
+            buttons.Add(new Button(
+               _graphics.GraphicsDevice,
+               new Rectangle(windowWidth / 2 - 400, windowHeight / 2 + 200, 300, 65),
+               backButton,
+               backButton
+               ));
+
+            // Assign methods to the buttons' event 
+            buttons[0].OnLeftButtonClick += PlayButton;
+            buttons[1].OnLeftButtonClick += CreditsButton;
+            buttons[2].OnLeftButtonClick += BackButton;
+
+            currentState = GameStates.Title;
+
             // add curr level npcs to the list
             npcs = new List<Npc>();
             npcs.Add(new Npc(128, 128, new Vector2(500, 1220), npcImg, "Receptionist"));
@@ -126,7 +163,6 @@ namespace SmileCorp
 
             //dialogue
             dialogue = new Dialogue(new Texture2D(GraphicsDevice, 100, 100));
-            currentState = GameStates.Game;
 
 
         }
@@ -142,12 +178,29 @@ namespace SmileCorp
 
                     previousState = currentState;
 
+                    //Updates the buttons
+                    buttons[0].Update();
+                    buttons[1].Update();
+
+
+                    IsMouseVisible = true;
+
+                    break;
+
+                case GameStates.Credits:
+
+                    //update buttons
+                    buttons[2].Update();
+
                     break;
 
                 //Game Screen --> Where the game is played
                 case GameStates.Game:
                     player.Update(gameTime);
-                    //npc.Update(gameTime);          
+                    foreach(Npc n in npcs)
+                    {
+                        n.Update(gameTime);
+                    }          
                     
                     kbState = Keyboard.GetState();
 
@@ -202,22 +255,30 @@ namespace SmileCorp
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin(transformMatrix: camera.Transform); //Starts drawing
+            _spriteBatch.Begin(); //Starts drawing
 
             switch(currentState)
             {
                 case GameStates.Title:
+                    _spriteBatch.Begin();
                     _spriteBatch.Draw(titleMenu, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                    _spriteBatch.End();
                     break;
 
                 case GameStates.Credits:
+                    _spriteBatch.Begin();
                     _spriteBatch.DrawString(font, "Credits", new Vector2(windowWidth / 2, 10), Color.White);
                     _spriteBatch.DrawString(font, "Programmers: Anna Piccione, Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 70), Color.White);
                     _spriteBatch.DrawString(font, "Artists: Gia Lopez, Jessica Niem, Karin Sannomiya", new Vector2(10, 110), Color.White);
                     _spriteBatch.Draw(smile, new Rectangle(380, 175, smile.Width / 2, smile.Height / 2), Color.White);
+
+                    buttons[2].Draw(_spriteBatch); // back
+
+                    _spriteBatch.End();
                     break;
 
                 case GameStates.Game:
+                    _spriteBatch.Begin(transformMatrix: camera.Transform); //Starts drawing
                     _spriteBatch.Draw(testMap, new Vector2(0, 0), Color.White);
 
                     player.Draw(_spriteBatch);
@@ -231,13 +292,12 @@ namespace SmileCorp
                     {
                         n.Draw(_spriteBatch);
                     }
+                    _spriteBatch.End();
 
                     dialogue.Draw(gameTime, _spriteBatch);
 
                     break;
             }
-
-            _spriteBatch.End(); //Ends drawing
 
             base.Draw(gameTime);
         }
@@ -312,6 +372,21 @@ namespace SmileCorp
         public bool SingleKeyPress(Keys key, KeyboardState kbState)
         {
             return kbState.IsKeyDown(key) && !prevKBState.IsKeyDown(key);
+        }
+
+        public void PlayButton ()
+        {
+            currentState = GameStates.Game;
+        }
+
+        public void CreditsButton ()
+        {
+            currentState = GameStates.Credits;
+        }
+
+        public void BackButton ()
+        {
+            currentState = GameStates.Title;
         }
     }
 }

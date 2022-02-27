@@ -152,7 +152,6 @@ namespace SmileCorp
 
             //dialogue
             dialogue = new Dialogue(new Texture2D(GraphicsDevice, 100, 100));
-            currentState = GameStates.Credits;
 
 
         }
